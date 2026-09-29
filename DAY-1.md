@@ -1,11 +1,9 @@
-
 # DAY-1-SB: Spring Core Basics
 
-*Wednesday, 16 September 2026*
 
 ## 1. Why was Spring created?
 
-Spring helps us achieve **loose coupling**.
+Spring helps us achieve loose coupling.
 
 ```text
 Spring Container
@@ -41,15 +39,15 @@ Spring Creates Objects
 Spring Connects Objects
 ```
 
-**This is the biggest idea in Spring.**
+This is the biggest idea in Spring.
 
 ---
 
 ## 2. IoC (Inversion of Control)
 
-**Inversion of Control (IoC) is a design principle in which the responsibility of creating and managing objects is transferred from the application to the Spring Container.**
+Inversion of Control (IoC) is a design principle in which the responsibility of creating and managing objects is transferred from the application to the Spring Container.
 
-**Without IoC**
+Without IoC
 
 ```java
 EmployeeRepository repo = new EmployeeRepository();
@@ -60,7 +58,7 @@ EmployeeService service =
 
 You control object creation.
 
-**With IoC**
+With IoC
 
 ```java
 @Service
@@ -86,9 +84,9 @@ Spring Container
 Creates & manages objects
 ```
 
-**Inversion:** Reverse the control of object creation.
+Inversion: Reverse the control of object creation.
 
-IoC is not the same as DI (Dependency Injection). **Dependency Injection (DI) is one way Spring implements IoC.**
+IoC is not the same as DI (Dependency Injection). Dependency Injection (DI) is one way Spring implements IoC.
 
 ```text
 IoC
@@ -98,7 +96,7 @@ IoC
 └── Bean Lifecycle
 ```
 
-> **Note:** The Spring IoC Container creates, manages, configures, and injects objects (beans).
+> Note: The Spring IoC Container creates, manages, configures, and injects objects (beans).
 
 ---
 
@@ -126,10 +124,10 @@ public class EmployeeService {
 
 Here:
 
-- `EmployeeRepository` → dependency
-- `EmployeeService` → class that needs the dependency
-- `EmployeeService(EmployeeRepository repository)` → constructor
-- Spring provides `EmployeeRepository` through the constructor.
+- EmployeeRepository → dependency
+- EmployeeService → class that needs the dependency
+- EmployeeService(EmployeeRepository repository) → constructor
+- Spring provides EmployeeRepository through the constructor.
 
 Conceptually, Spring does:
 
@@ -161,7 +159,7 @@ public class EmployeeService {
 
 The important difference:
 
-**Constructor Injection**
+Constructor Injection
 
 ```text
 Create object + provide dependency
@@ -169,7 +167,7 @@ Create object + provide dependency
 EmployeeService(repository)
 ```
 
-**Setter Injection**
+Setter Injection
 
 ```text
 Create object
@@ -179,18 +177,18 @@ Provide dependency through setter
 setRepository(repository)
 ```
 
-- In constructor injection, the dependency is provided **while creating** the object. In setter injection, it is provided **once the object is created**.
+- In constructor injection, the dependency is provided while creating the object. In setter injection, it is provided once the object is created.
 
-**Constructor injection:**
+Constructor injection:
 
 ```java
 EmployeeService service =
         new EmployeeService(repository);
 ```
 
-The dependency is given **while creating the object**.
+The dependency is given while creating the object.
 
-**Setter injection:**
+Setter injection:
 
 ```java
 EmployeeService service =
@@ -199,7 +197,7 @@ EmployeeService service =
 service.setRepository(repository);
 ```
 
-The object is created **first**, and the dependency is provided **afterward**.
+The object is created first, and the dependency is provided afterward.
 
 Full example:
 
@@ -242,10 +240,10 @@ service.setRepository(repository);
 
 You don't manually write these lines when using Spring.
 
-**Key points**
+Key points
 
-- In Setter Injection, the dependency is assigned after the object is created through a setter method, so the field **cannot be `final`**. In Constructor Injection, the dependency is assigned during object creation through the constructor, so we can make the field `final` and ensure it cannot be reassigned later.
-- **Mandatory dependency → use constructor injection.** The class should not be created without that dependency. Constructor Injection ensures this because the dependency must be provided at the time of object creation.
+- In Setter Injection, the dependency is assigned after the object is created through a setter method, so the field cannot be final. In Constructor Injection, the dependency is assigned during object creation through the constructor, so we can make the field final and ensure it cannot be reassigned later.
+- Mandatory dependency → use constructor injection. The class should not be created without that dependency. Constructor Injection ensures this because the dependency must be provided at the time of object creation.
 
   ```java
   public EmployeeService(EmployeeRepository repository) {
@@ -253,7 +251,7 @@ You don't manually write these lines when using Spring.
   }
   ```
 
-  When creating the object, we **must provide** an `EmployeeRepository`:
+  When creating the object, we must provide an EmployeeRepository:
 
   ```java
   EmployeeRepository repository = new EmployeeRepository();
@@ -262,9 +260,9 @@ You don't manually write these lines when using Spring.
           new EmployeeService(repository);
   ```
 
-  If we don't provide the repository, we cannot create the `EmployeeService` object using this constructor.
+  If we don't provide the repository, we cannot create the EmployeeService object using this constructor.
 
-- **Optional dependency → use setter injection.** The object can be created first and the dependency provided later through the setter method.
+- Optional dependency → use setter injection. The object can be created first and the dependency provided later through the setter method.
 
   ```java
   EmployeeService service = new EmployeeService();
@@ -272,16 +270,16 @@ You don't manually write these lines when using Spring.
   service.setRepository(repository);
   ```
 
-  So there is a possibility that the `EmployeeService` object exists **without its required dependency** before `setRepository()` is called.
+  So there is a possibility that the EmployeeService object exists without its required dependency before setRepository() is called.
 
-**Summary**
+Summary
 
-- **Constructor Injection** → dependency is required at object creation.
-- **Setter Injection** → dependency can be provided after object creation.
+- Constructor Injection → dependency is required at object creation.
+- Setter Injection → dependency can be provided after object creation.
 
 #### 3.3 Field Injection
 
-**Field Injection** is a type of Dependency Injection where Spring directly injects the dependency into a class field using `@Autowired`. Instead of passing the dependency through a constructor or setter, Spring directly puts the dependency into the variable.
+Field Injection is a type of Dependency Injection where Spring directly injects the dependency into a class field using @Autowired. Instead of passing the dependency through a constructor or setter, Spring directly puts the dependency into the variable.
 
 ```java
 @Service
@@ -293,9 +291,9 @@ public class EmployeeService {
 }
 ```
 
-Spring sees `@Autowired` and injects the `EmployeeRepository` object into `repository`.
+Spring sees @Autowired and injects the EmployeeRepository object into repository.
 
-> **Note:** Although Field Injection is simple and requires less code, **Constructor Injection is generally preferred**, especially for mandatory dependencies, because it makes dependencies explicit and allows fields to be `final`.
+> Note: Although Field Injection is simple and requires less code, Constructor Injection is generally preferred, especially for mandatory dependencies, because it makes dependencies explicit and allows fields to be final.
 
 ---
 
@@ -308,7 +306,7 @@ Spring sees `@Autowired` and injects the `EmployeeRepository` object into `repos
 |---|---|
 | Design principle | Technique/pattern |
 | Broader concept | More specific |
-| Says **who controls object creation** | Says **how dependencies are provided** |
+| Says who controls object creation | Says how dependencies are provided |
 | Spring Container takes control | Spring injects dependencies |
 | Can be achieved in different ways | Constructor, Setter, Field injection |
 
@@ -318,9 +316,9 @@ Spring sees `@Autowired` and injects the `EmployeeRepository` object into `repos
 
 ### 5.1 Spring Bean
 
-A **Spring Bean** is simply an **object that is created, managed, and maintained by the Spring Container**.
+A Spring Bean is simply an object that is created, managed, and maintained by the Spring Container.
 
-Key phrase to remember: **Object managed by Spring = Spring Bean**
+Key phrase to remember: Object managed by Spring = Spring Bean
 
 ```java
 @Repository
@@ -332,7 +330,7 @@ public class EmployeeRepository {
 }
 ```
 
-Because we have `@Repository`, Spring detects `EmployeeRepository`, creates an object of it, and manages it as a bean.
+Because we have @Repository, Spring detects EmployeeRepository, creates an object of it, and manages it as a bean.
 
 ```text
 @Repository → Spring Bean
@@ -349,14 +347,14 @@ These annotations tell Spring to create and manage objects of these classes.
 
 Spring creates beans in 2 ways:
 
-- **Component scanning**: using `@Component`, `@Service`, `@Repository`, `@Controller`
-- **Java configuration**: using `@Bean`
+- Component scanning: using @Component, @Service, @Repository, @Controller
+- Java configuration: using @Bean
 
 ### 6.1 Component Scanning
 
 Component Scanning is the process by which Spring searches your application classes for specific Spring annotations and automatically creates and manages objects (Beans) for those classes.
 
-**Without Spring:** you have to create objects, connect objects, and manage objects. Example:
+Without Spring: you have to create objects, connect objects, and manage objects. Example:
 
 Suppose you have three classes:
 
@@ -408,7 +406,7 @@ EmployeeController controller =
         new EmployeeController(service);
 ```
 
-**How Spring scans**
+How Spring scans
 
 When your application starts, it looks through a specific set of packages in your application.
 
@@ -433,9 +431,9 @@ Register them as Beans
 Manage them
 ```
 
-Spring looks for classes marked with: `@Component`, `@Service`, `@Repository`, `@Controller`, `@RestController`.
+Spring looks for classes marked with: @Component, @Service, @Repository, @Controller, @RestController.
 
-> **Note: Component scanning does NOT scan every class and turn every class into a Bean.**
+> Note: Component scanning does NOT scan every class and turn every class into a Bean.
 
 ```java
 public class Employee {
@@ -454,7 +452,7 @@ Now Spring can discover it during component scanning and create a Bean.
 
 ### 6.2 Stereotype annotations
 
-**1. `@Component`**: generic purpose, Spring-managed class. Spring can discover it during component scanning and create a Bean.
+1. @Component: generic purpose, Spring-managed class. Spring can discover it during component scanning and create a Bean.
 
 ```java
 @Component
@@ -466,7 +464,7 @@ public class EmailValidator {
 }
 ```
 
-**2. `@Service`**: handles business logic.
+2. @Service: handles business logic.
 
 ```java
 @Service
@@ -478,7 +476,7 @@ public class EmployeeService {
 }
 ```
 
-**3. `@Repository`**: for database access.
+3. @Repository: for database access.
 
 ```java
 @Repository
@@ -490,7 +488,7 @@ public class EmployeeRepository {
 }
 ```
 
-**4. `@Controller`**: handles web requests in Spring MVC.
+4. @Controller: handles web requests in Spring MVC.
 
 ```java
 @Controller
@@ -503,9 +501,9 @@ public class EmployeeController {
 }
 ```
 
-### 6.3 Java Configuration (`@Bean`)
+### 6.3 Java Configuration (@Bean)
 
-We use `@Bean`. It tells Spring: **create and manage the object returned by this method as a Spring Bean.**
+We use @Bean. It tells Spring: create and manage the object returned by this method as a Spring Bean.
 
 ```java
 @Configuration
@@ -518,15 +516,15 @@ public class AppConfig {
 }
 ```
 
-- `@Bean public EmployeeService employeeService() {`: we let Spring know that the object returned from this method has to be registered as a bean.
-- `return new EmployeeService();`: here we explicitly return a new object.
+- @Bean public EmployeeService employeeService() {: we let Spring know that the object returned from this method has to be registered as a bean.
+- return new EmployeeService();: here we explicitly return a new object.
 
-> **Note:**
+> Note:
 >
-> **`@Component` → class-level**
-> **`@Bean` → method-level**
+> @Component → class-level
+> @Bean → method-level
 
-Using `@Component`, we tell Spring to discover the class, and create & manage its objects.
+Using @Component, we tell Spring to discover the class, and create & manage its objects.
 
 ```java
 @Component
@@ -534,7 +532,7 @@ public class EmailService {
 }
 ```
 
-Using `@Bean`, we tell Spring to use this method to create the object and manage the returned object.
+Using @Bean, we tell Spring to use this method to create the object and manage the returned object.
 
 ```java
 @Configuration
@@ -547,7 +545,7 @@ public class AppConfig {
 }
 ```
 
-**We need `@Bean` when we are using a third-party class** that we cannot modify (we can't add annotations to it because we don't own its source code).
+We need @Bean when we are using a third-party class that we cannot modify (we can't add annotations to it because we don't own its source code).
 
 ```java
 @Configuration
@@ -574,9 +572,9 @@ public class EmployeeService {
 }
 ```
 
-**Should Spring create one `EmployeeService` object, or a new one every time it is requested? This is what bean scope controls.**
+Should Spring create one EmployeeService object, or a new one every time it is requested? This is what bean scope controls.
 
-**By default, bean scope is singleton**: Spring creates one instance of the bean per IoC container.
+By default, bean scope is singleton: Spring creates one instance of the bean per IoC container.
 
 Other bean scopes:
 
@@ -632,14 +630,14 @@ Application shuts down
 Bean is destroyed
 ```
 
-**After the Bean is created**, for example:
+After the Bean is created, for example:
 
 - Load configuration
 - Open a connection
 - Initialize resources
 - Perform setup
 
-**Before the Bean is destroyed**, for example:
+Before the Bean is destroyed, for example:
 
 - Close a connection
 - Release resources
@@ -668,12 +666,12 @@ public class EmployeeService {
 }
 ```
 
-- `@PostConstruct`: runs after Bean creation and dependency injection. Used for initialization.
-- `@PreDestroy`: runs before Spring destroys the Bean. Used for cleanup.
+- @PostConstruct: runs after Bean creation and dependency injection. Used for initialization.
+- @PreDestroy: runs before Spring destroys the Bean. Used for cleanup.
 
-> **Note:** For `@PreDestroy`, remember that Spring manages destruction of normal singleton Beans; **prototype Beans are a special case** because Spring does not manage their full destruction lifecycle.
+> Note: For @PreDestroy, remember that Spring manages destruction of normal singleton Beans; prototype Beans are a special case because Spring does not manage their full destruction lifecycle.
 
-> "The Spring Bean lifecycle starts when the Spring Container creates the Bean. Spring then injects its dependencies and calls the initialization callback, such as `@PostConstruct`. The Bean is then available for use. When the container shuts down, Spring calls the destruction callback, such as `@PreDestroy`, before destroying the Bean."
+> "The Spring Bean lifecycle starts when the Spring Container creates the Bean. Spring then injects its dependencies and calls the initialization callback, such as @PostConstruct. The Bean is then available for use. When the container shuts down, Spring calls the destruction callback, such as @PreDestroy, before destroying the Bean."
 
 ---
 
@@ -698,7 +696,7 @@ EmployeeService service =
 service.hello();
 ```
 
-We are **not creating the object ourselves** with `new EmployeeService()`. We're asking the Spring container for the object it manages.
+We are not creating the object ourselves with new EmployeeService(). We're asking the Spring container for the object it manages.
 
 ```text
 IoC
@@ -721,7 +719,7 @@ Creates / manages / provides Beans
 
 ### ApplicationContext
 
-`ApplicationContext` is an **advanced Spring IoC container** that is responsible for creating, managing, and providing Spring Beans, along with additional features such as events, internationalization, and resource handling.
+ApplicationContext is an advanced Spring IoC container that is responsible for creating, managing, and providing Spring Beans, along with additional features such as events, internationalization, and resource handling.
 
 You can access the ApplicationContext like this:
 
@@ -737,4 +735,4 @@ EmployeeService service =
         context.getBean(EmployeeService.class);
 ```
 
-BeanFactory uses **lazy initialization**, which means the Bean may be created only when you actually request it. But by default, singleton Beans are generally created eagerly during ApplicationContext startup.
+BeanFactory uses lazy initialization, which means the Bean may be created only when you actually request it. But by default, singleton Beans are generally created eagerly during ApplicationContext startup.
