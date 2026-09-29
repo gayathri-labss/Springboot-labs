@@ -1,6 +1,5 @@
 # DAY-2-SB: Spring Boot Basics
 
-*Monday, 28 September 2026*
 
 ## 1. Spring Boot
 
