@@ -49,7 +49,7 @@ Inversion of Control (IoC) is a design principle in which the responsibility of 
 
 Without IoC
 
-```java
+```text
 EmployeeRepository repo = new EmployeeRepository();
 
 EmployeeService service =
@@ -60,7 +60,7 @@ You control object creation.
 
 With IoC
 
-```java
+```text
 @Service
 public class EmployeeService {
 
@@ -110,7 +110,7 @@ A technique where an object's required dependency is provided to it from outside
 
 Dependency is provided through the constructor.
 
-```java
+```text
 @Service
 public class EmployeeService {
 
@@ -131,7 +131,7 @@ Here:
 
 Conceptually, Spring does:
 
-```java
+```text
 EmployeeRepository repository = new EmployeeRepository();
 
 EmployeeService service =
@@ -144,7 +144,7 @@ You don't write this wiring yourself; Spring handles it.
 
 Spring provides the dependency through a setter method once the object is created.
 
-```java
+```text
 @Service
 public class EmployeeService {
 
@@ -181,7 +181,7 @@ setRepository(repository)
 
 Constructor injection:
 
-```java
+```text
 EmployeeService service =
         new EmployeeService(repository);
 ```
@@ -190,7 +190,7 @@ The dependency is given while creating the object.
 
 Setter injection:
 
-```java
+```text
 EmployeeService service =
         new EmployeeService();
 
@@ -201,7 +201,7 @@ The object is created first, and the dependency is provided afterward.
 
 Full example:
 
-```java
+```text
 @Repository
 public class EmployeeRepository {
 
@@ -211,7 +211,7 @@ public class EmployeeRepository {
 }
 ```
 
-```java
+```text
 @Service
 public class EmployeeService {
 
@@ -230,7 +230,7 @@ public class EmployeeService {
 
 Spring essentially handles this for us:
 
-```java
+```text
 EmployeeRepository repository = new EmployeeRepository();
 
 EmployeeService service = new EmployeeService();
@@ -245,7 +245,7 @@ Key points
 - In Setter Injection, the dependency is assigned after the object is created through a setter method, so the field cannot be final. In Constructor Injection, the dependency is assigned during object creation through the constructor, so we can make the field final and ensure it cannot be reassigned later.
 - Mandatory dependency → use constructor injection. The class should not be created without that dependency. Constructor Injection ensures this because the dependency must be provided at the time of object creation.
 
-  ```java
+  ```text
   public EmployeeService(EmployeeRepository repository) {
       this.repository = repository;
   }
@@ -253,7 +253,7 @@ Key points
 
   When creating the object, we must provide an EmployeeRepository:
 
-  ```java
+  ```text
   EmployeeRepository repository = new EmployeeRepository();
 
   EmployeeService service =
@@ -264,7 +264,7 @@ Key points
 
 - Optional dependency → use setter injection. The object can be created first and the dependency provided later through the setter method.
 
-  ```java
+  ```text
   EmployeeService service = new EmployeeService();
 
   service.setRepository(repository);
@@ -281,7 +281,7 @@ Summary
 
 Field Injection is a type of Dependency Injection where Spring directly injects the dependency into a class field using @Autowired. Instead of passing the dependency through a constructor or setter, Spring directly puts the dependency into the variable.
 
-```java
+```text
 @Service
 public class EmployeeService {
 
@@ -320,7 +320,7 @@ A Spring Bean is simply an object that is created, managed, and maintained by th
 
 Key phrase to remember: Object managed by Spring = Spring Bean
 
-```java
+```text
 @Repository
 public class EmployeeRepository {
 
@@ -358,7 +358,7 @@ Without Spring: you have to create objects, connect objects, and manage objects.
 
 Suppose you have three classes:
 
-```java
+```text
 public class EmployeeRepository {
 
     public void save() {
@@ -367,7 +367,7 @@ public class EmployeeRepository {
 }
 ```
 
-```java
+```text
 public class EmployeeService {
 
     private EmployeeRepository repository;
@@ -382,7 +382,7 @@ public class EmployeeService {
 }
 ```
 
-```java
+```text
 public class EmployeeController {
 
     private EmployeeService service;
@@ -395,7 +395,7 @@ public class EmployeeController {
 
 Without Spring, you have to create all these objects yourself:
 
-```java
+```text
 EmployeeRepository repository =
         new EmployeeRepository();
 
@@ -435,14 +435,14 @@ Spring looks for classes marked with: @Component, @Service, @Repository, @Contro
 
 > Note: Component scanning does NOT scan every class and turn every class into a Bean.
 
-```java
+```text
 public class Employee {
 }
 ```
 
 Here there is no component annotation, so Spring doesn't automatically treat this class as a component just because it exists.
 
-```java
+```text
 @Component
 public class Employee {
 }
@@ -454,7 +454,7 @@ Now Spring can discover it during component scanning and create a Bean.
 
 1. @Component: generic purpose, Spring-managed class. Spring can discover it during component scanning and create a Bean.
 
-```java
+```text
 @Component
 public class EmailValidator {
 
@@ -466,7 +466,7 @@ public class EmailValidator {
 
 2. @Service: handles business logic.
 
-```java
+```text
 @Service
 public class EmployeeService {
 
@@ -478,7 +478,7 @@ public class EmployeeService {
 
 3. @Repository: for database access.
 
-```java
+```text
 @Repository
 public class EmployeeRepository {
 
@@ -490,7 +490,7 @@ public class EmployeeRepository {
 
 4. @Controller: handles web requests in Spring MVC.
 
-```java
+```text
 @Controller
 public class EmployeeController {
 
@@ -505,7 +505,7 @@ public class EmployeeController {
 
 We use @Bean. It tells Spring: create and manage the object returned by this method as a Spring Bean.
 
-```java
+```text
 @Configuration
 public class AppConfig {
 
@@ -526,7 +526,7 @@ public class AppConfig {
 
 Using @Component, we tell Spring to discover the class, and create & manage its objects.
 
-```java
+```text
 @Component
 public class EmailService {
 }
@@ -534,7 +534,7 @@ public class EmailService {
 
 Using @Bean, we tell Spring to use this method to create the object and manage the returned object.
 
-```java
+```text
 @Configuration
 public class AppConfig {
 
@@ -547,7 +547,7 @@ public class AppConfig {
 
 We need @Bean when we are using a third-party class that we cannot modify (we can't add annotations to it because we don't own its source code).
 
-```java
+```text
 @Configuration
 public class AppConfig {
 
@@ -566,7 +566,7 @@ Bean scope defines the lifecycle and number of instances of a Spring Bean manage
 
 Example:
 
-```java
+```text
 @Service
 public class EmployeeService {
 }
@@ -589,7 +589,7 @@ Other bean scopes:
 
 Syntax to define different scopes of a bean:
 
-```java
+```text
 @Service
 @Scope("prototype")
 public class EmployeeService {
@@ -645,7 +645,7 @@ Before the Bean is destroyed, for example:
 
 So Spring provides lifecycle hooks that allow us to run code during these stages.
 
-```java
+```text
 @Service
 public class EmployeeService {
 
@@ -679,7 +679,7 @@ public class EmployeeService {
 
 BeanFactory is a Spring IoC container interface which creates and manages beans.
 
-```java
+```text
 @Component
 public class EmployeeService {
 
@@ -689,7 +689,7 @@ public class EmployeeService {
 }
 ```
 
-```java
+```text
 EmployeeService service =
         beanFactory.getBean(EmployeeService.class);
 
@@ -723,14 +723,14 @@ ApplicationContext is an advanced Spring IoC container that is responsible for c
 
 You can access the ApplicationContext like this:
 
-```java
+```text
 ApplicationContext context =
         new AnnotationConfigApplicationContext(AppConfig.class);
 ```
 
 Then you can retrieve a Bean:
 
-```java
+```text
 EmployeeService service =
         context.getBean(EmployeeService.class);
 ```
