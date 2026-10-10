@@ -1,6 +1,5 @@
 # DAY-5-SB: Spring Data JPA
 
-*Saturday, 3 October 2026*
 
 ## 1. Request and Response Flow
 
